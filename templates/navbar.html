@@ -1,0 +1,13 @@
+<div>
+    <a href="#">Home</a>
+    <input type="text" name="query" placeholder="Search Here">
+    {% if request.user.is_authenticated %}
+        <a href="#">My courses</a>
+        <a href="#">Favorite</a>
+        <a href="#">My Card</a>
+        <a href="#">Profile</a>
+    {% else %}
+        <a href="#">Log in</a>
+        <a href="#">Register</a>
+    {% endif %}
+</div>
