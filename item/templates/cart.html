@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div>
+
+{% for item in items %}
+    <div>
+        <div>
+            <p>
+                @{{ item.course.author }}
+                {{ item.course.title }}
+            </p>
+            <a href="{% url 'delete-item-cart' item.id %}">Delete</a>
+            <a href="{% url 'move-cart' item.course.id %}">Move to favorite</a>
+        </div>
+        {% if item.course.image %}
+            <img
+                src="{{ item.course.image.url }}"
+                alt="{{ item.course.title }}"
+            >
+        {% endif %}
+        <p>{{ item.course.price }}</p>
+    </div>
+{% empty %}
+
+    <p>No items added yet.</p>
+{% endfor %}
+
+    <div>
+        {% if items %}
+            <h3>Total price: {{ total_price }} DH</h3>
+            <a href="{% url 'checkout' %}"> Checkout </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

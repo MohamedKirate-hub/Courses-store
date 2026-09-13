@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="course_container">
+    <div class="right-content">
+        {% if course.image %}
+            <img src="{{ course.image.url }}" alt="{{ course.title }}">
+        {% endif %}
+        {% if course.discount > 0 %}
+            <p>Original price: ${{ course.price }}</p>
+            <p>Discount: {{ course.discount }}%</p>
+            <p>Price after discount: ${{ course.get_final_price }}</p>
+        {% else %}
+            <p>Price: ${{ course.price }}</p>
+        {% endif %}
+        {% if request.user == course.author %}
+                <a href="{% url 'update-course' course.id %}">Edit</a>
+                <a href="{% url 'delete-course' course.id %}">Delete</a>
+        {% else %}
+            {% if is_enrolled %}
+                <a href="#">Continue learning</a>
+            {% else %}
+                <a href="{% url 'enrolle-course' course.id %}">Buy now</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="left-content">
+        <h3>{{ course.title }}</h3>
+        {% if course.description %}
+            <h5>{{ course.description}}</h5>
+        {% endif %}
+        <p>Last update: {{ course.updated_at|date:"m/Y"}} Language: {{course.language}}</p>
+        <div>
+            <div>
+                <h4>{{ course.avg_rates|default:"No rating" }}</h4>
+                <p> starts </p>
+                <p>{{ course.rates_count }}</p>
+            </div>
+        </div>
+    </div>
+    {% if is_enrolled %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ feedback_form.as_p }}
+            <button type="submit">Add Feedback</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

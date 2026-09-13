@@ -1,0 +1,152 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <!-- Header -->
+    <div>
+        <h1>Courses</h1>
+
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'create-course' %}">+ Create Course</a>
+        {% endif %}
+    </div>
+    <!-- Courses -->
+    <div class="course-grid">
+        {% for course in courses %}
+            <div class="course-card">
+                <!-- Course Image -->
+                <a href="{% url 'course-detail' course.id %}">
+                    {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}" >
+                    {% else %}
+                        <div>
+                            No image
+                        </div>
+                    {% endif %}
+                </a>
+
+                <!-- Bestseller -->
+                {% if course.bestseller %}
+                    <span>
+                        Bestseller
+                    </span>
+                {% endif %}
+                <!-- Course Information -->
+                <div>
+                    <h2>
+                        <a href="{% url 'course-detail' course.id %}">
+                            {{ course.title }}
+                        </a>
+                    </h2>
+
+                    <!-- Author -->
+                    <p>
+                        By
+                        <a href="#">
+                            @{{ course.author.username }}
+                        </a>
+                    </p>
+
+
+                    <!-- Language -->
+                    <p>
+                        Language: {{ course.language }}
+                    </p>
+
+
+                    <!-- Topics -->
+                    {% if course.topics.all %}
+                        <div>
+                            {% for topic in course.topics.all %}
+                                <span>
+                                    {{ topic.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+
+                    <!-- Price -->
+                    <div>
+
+                        {% if course.discount > 0 %}
+
+                            <span>
+                                <del>{{ course.price }} DH</del>
+                            </span>
+
+                            <strong>
+                                {{ course.get_final_price }} DH
+                            </strong>
+
+                            <span>
+                                {{ course.discount }}% OFF
+                            </span>
+
+                        {% else %}
+
+                            <strong>
+                                {{ course.price }} DH
+                            </strong>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Visitors -->
+                    <p>
+                        {{ course.visitor }} students
+                    </p>
+
+
+                    <!-- Actions -->
+                    {% if request.user.is_authenticated %}
+
+                        {% if request.user != course.author %}
+
+                            <div>
+
+                                <a href="{% url 'add-cart' course.id %}">
+                                    Add to Cart
+                                </a>
+
+                                <a href="{% url 'add-favorite' course.id %}">
+                                    ♡ Favorite
+                                </a>
+
+                            </div>
+
+                        {% else %}
+
+                            <p>
+                                Your course
+                            </p>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href="{% url 'login' %}">
+                            Login to enroll
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div>
+                <h2>No courses available</h2>
+                <p>
+                    There are no courses available at the moment.
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

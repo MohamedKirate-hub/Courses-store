@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% for enrollment in enrollments %}
+    <h2>{{ enrollment.course.title }}</h2>
+
+    <p>Author: {{ enrollment.course.author }}</p>
+    <p>
+        <a href="{% url 'unenrolled-course' enrollment.course.id %}">
+            Unenrolle Course
+        </a>
+    </p>
+    {% if enrollment.course.image %}
+        <img
+            src="{{ enrollment.course.image.url }}"
+            alt="{{ enrollment.course.title }}"
+        >
+    {% endif %}
+
+    <a href="#">
+        Continue Learning
+    </a>
+{% empty %}
+    <p>You haven't enrolled in any courses yet.</p>
+{% endfor %}
+
+{% endblock %}

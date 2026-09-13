@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>My Favorites</h1>
+
+    {% for favorite in favorites %}
+
+        <div>
+            <div>
+                <h2>
+                    <a href="{% url 'course-detail' favorite.course.id %}">{{ favorite.course.title }}</a>
+                </h2>
+                <a href="{% url 'delete-favorite' favorite.id %}">Delete</a>
+            </div>
+
+            {% if favorite.course.image %}
+                <img
+                    src="{{ favorite.course.image.url }}"
+                    alt="{{ favorite.course.title }}"
+                >
+            {% endif %}
+
+            <p>Price: {{ favorite.course.price }}</p>
+            <p>Author: {{ favorite.course.author }}</p>
+
+        </div>
+
+    {% empty %}
+
+        <p>You don't have any favorite courses yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
