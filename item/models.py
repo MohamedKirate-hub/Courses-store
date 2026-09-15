@@ -14,8 +14,8 @@ class Course(models.Model):
     image = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     language = models.CharField(max_length=255, default='English')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    topics = models.ManyToManyField(Topic, related_name='courses', blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
+    topics = models.ManyToManyField(Topic, related_name='courses', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0,
                                 validators=[
                                     MinValueValidator(0)
@@ -27,6 +27,7 @@ class Course(models.Model):
                                    ])
     visitor = models.PositiveIntegerField(default=0)
     bestseller = models.BooleanField(default=False)
+    published = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

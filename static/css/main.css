@@ -1,0 +1,76 @@
+/* ==========================================================================
+   1. CORE RESET & GLOBALS
+   ========================================================================== */
+
+:root {
+  --primary-color: #1c1d1f;
+  --accent-color: #ff5722;
+  --accent-hover: #e0481d;
+  --link-color: #007791;
+  --bg-main: #ffffff;
+  --bg-secondary: #f7f9fa;
+  --border-color: #d1d7dc;
+  --text-main: #1c1d1f;
+  --text-muted: #6a6f73;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   2. CUSTOM SCROLLBAR STYLES
+   ========================================================================== */
+
+/* Modern Standard Syntax (Firefox & modern engines) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6a6f73 var(--bg-secondary);
+}
+
+/* WebKit Engine Syntax (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 5px;
+  border: 2px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
+
+/* ==========================================================================
+   3. LAYOUT STRUCTURE
+   ========================================================================== */
+
+.main-wrapper {
+  min-height: calc(100vh - 72px); /* Adjust based on navbar height */
+  display: flex;
+  flex-direction: column;
+}

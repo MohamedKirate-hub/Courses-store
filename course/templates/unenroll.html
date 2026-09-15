@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="post">
-    {% csrf_token %}
+{% extends 'main.html' %}
+{% load static %}
 
-    <p>
-        Are you sure you want to unenroll from
-        <strong>{{ course.title }}</strong>?
-    </p>
+{% block title %}Unenroll from Course | LearnSphere{% endblock %}
 
-    <button type="submit">
-        Unenroll
-    </button>
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/unenroll_confirm.css' %}">
+{% endblock %}
 
-    <a href="{% url 'learning' %}">
-        Cancel
-    </a>
-</form>
-</body>
-</html>
+{% block content %}
+<div class="confirm-wrapper">
+    <div class="confirm-card">
+        
+        <div class="warning-icon">⚠️</div>
+        
+        <header class="confirm-header">
+            <h1>Unenroll from Course</h1>
+            <p class="confirm-target">
+                Are you sure you want to unenroll from <strong>"{{ course.title }}"</strong>?
+            </p>
+        </header>
+
+        <div class="confirm-warning-box">
+            <p><strong>Note:</strong> You will lose access to course materials, but you can re-enroll later if needed.</p>
+        </div>
+
+        <form method="POST" class="confirm-form">
+            {% csrf_token %}
+
+            <div class="confirm-actions">
+                <button type="submit" class="btn btn-danger">
+                    Yes, Unenroll
+                </button>
+                <a href="{% url 'learning' %}" class="btn btn-outline">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

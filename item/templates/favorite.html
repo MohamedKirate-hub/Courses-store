@@ -1,39 +1,95 @@
 {% extends 'main.html' %}
+{% load static %}
+
+{% block title %}My Wishlist | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/item/wishlist.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="wishlist-page-container">
+    
+    <!-- Page Header -->
+    <div class="wishlist-header">
+        <h1 class="wishlist-title">My Wishlist</h1>
+        <p class="wishlist-subtitle">Courses you’ve saved for later.</p>
+    </div>
 
-<div class="container">
+    {% if favorites %}
+        <!-- 4-Column Responsive Grid matching Home Layout -->
+        <div class="wishlist-grid">
+            {% for favorite in favorites %}
+                <div class="wishlist-card">
+                    
+                    <!-- Card Thumbnail Header -->
+                    <div class="card-media">
+                        {% if favorite.course.image %}
+                            <img src="{{ favorite.course.image.url }}" alt="{{ favorite.course.title }}" loading="lazy">
+                        {% else %}
+                            <div class="placeholder-media">
+                                <span>No Preview</span>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Remove Action Button -->
+                        <a href="{% url 'delete-favorite' favorite.id %}" class="remove-wishlist-btn" title="Remove from wishlist">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </a>
+                    </div>
 
-    <h1>My Favorites</h1>
+                    <!-- Card Details -->
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <a href="{% url 'course-detail' favorite.course.id %}">{{ favorite.course.title }}</a>
+                        </h2>
 
-    {% for favorite in favorites %}
+                        <p class="card-author">
+                            By <a href="{% url 'profile' favorite.course.author.id %}">@{{ favorite.course.author.username|default:favorite.course.author }}</a>
+                        </p>
 
-        <div>
-            <div>
-                <h2>
-                    <a href="{% url 'course-detail' favorite.course.id %}">{{ favorite.course.title }}</a>
-                </h2>
-                <a href="{% url 'delete-favorite' favorite.id %}">Delete</a>
-            </div>
+                        <!-- Topics Pill Badges -->
+                        {% if favorite.course.topics.all %}
+                            <div class="card-topics">
+                                {% for topic in favorite.course.topics.all|slice:":2" %}
+                                    <span class="topic-pill">{{ topic.name }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
-            {% if favorite.course.image %}
-                <img
-                    src="{{ favorite.course.image.url }}"
-                    alt="{{ favorite.course.title }}"
-                >
-            {% endif %}
+                        <div class="card-footer">
+                            <div class="card-price">
+                                {% if favorite.course.price == 0 %}
+                                    <span class="price-free">Free</span>
+                                {% else %}
+                                    <span class="price-amount">${{ favorite.course.price }}</span>
+                                {% endif %}
+                            </div>
 
-            <p>Price: {{ favorite.course.price }}</p>
-            <p>Author: {{ favorite.course.author }}</p>
+                            <a href="{% url 'course-detail' favorite.course.id %}" class="btn-view-course">
+                                View Course
+                            </a>
+                        </div>
+                    </div>
 
+                </div>
+            {% endfor %}
         </div>
-
-    {% empty %}
-
-        <p>You don't have any favorite courses yet.</p>
-
-    {% endfor %}
+    {% else %}
+        <!-- Empty State View -->
+        <div class="wishlist-empty-state">
+            <div class="empty-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+            <h2>Your wishlist is empty</h2>
+            <p>Explore courses and save your favorites to view them anytime.</p>
+            <a href="{% url 'home' %}" class="btn-browse">Browse Courses</a>
+        </div>
+    {% endif %}
 
 </div>
-
 {% endblock %}

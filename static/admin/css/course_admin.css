@@ -1,0 +1,30 @@
+.course-admin-custom {
+    padding: 10px;
+}
+
+.course-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #1f2937;
+}
+
+.course-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.course-header p {
+    margin: 8px 0 0;
+    opacity: 0.7;
+}
+
+.course-add-button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}

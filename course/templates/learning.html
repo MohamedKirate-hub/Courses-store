@@ -1,28 +1,61 @@
 {% extends 'main.html' %}
+{% load static %}
+
+{% block title %}My Enrolled Courses | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/enrollments.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="enrollments-page">
+    <div class="enrollments-container">
+        
+        <header class="page-header">
+            <h1>My Learning Dashboard</h1>
+            <p class="page-subtitle">Manage your active courses and continue your progress.</p>
+        </header>
 
-{% for enrollment in enrollments %}
-    <h2>{{ enrollment.course.title }}</h2>
+        {% if enrollments %}
+            <div class="enrollments-grid">
+                {% for enrollment in enrollments %}
+                    <article class="enrolled-card">
+                        {% if enrollment.course.image %}
+                            <div class="card-image-wrap">
+                                <img src="{{ enrollment.course.image.url }}" alt="{{ enrollment.course.title }}">
+                            </div>
+                        {% endif %}
 
-    <p>Author: {{ enrollment.course.author }}</p>
-    <p>
-        <a href="{% url 'unenrolled-course' enrollment.course.id %}">
-            Unenrolle Course
-        </a>
-    </p>
-    {% if enrollment.course.image %}
-        <img
-            src="{{ enrollment.course.image.url }}"
-            alt="{{ enrollment.course.title }}"
-        >
-    {% endif %}
+                        <div class="card-content">
+                            <div class="card-meta-top">
+                                <span class="author-label">
+                                    By <a href="{% url 'profile' enrollment.course.author.id %}">{{ enrollment.course.author.username }}</a>
+                                </span>
+                                <a href="{% url 'unenrolled-course' enrollment.course.id %}" class="unenroll-link">Unenroll</a>
+                            </div>
 
-    <a href="#">
-        Continue Learning
-    </a>
-{% empty %}
-    <p>You haven't enrolled in any courses yet.</p>
-{% endfor %}
+                            <h2 class="course-title">
+                                <a href="{% url 'course-detail' enrollment.course.id %}">{{ enrollment.course.title }}</a>
+                            </h2>
 
+                            <div class="card-actions">
+                                <a href="{% url 'course-detail' enrollment.course.id %}" class="btn btn-primary">
+                                    Continue Learning
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📚</div>
+                <h2>No enrollments yet</h2>
+                <p>You haven't enrolled in any courses. Explore our catalog to start learning today!</p>
+                <a href="#" class="btn btn-primary">Browse Courses</a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
 {% endblock %}

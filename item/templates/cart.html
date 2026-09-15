@@ -1,36 +1,93 @@
 {% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/item/cart.css' %}">
+{% endblock %}
 
 {% block content %}
-<div>
+<div class="cart-container">
+    <h1 class="cart-title">Shopping Cart</h1>
 
-{% for item in items %}
-    <div>
-        <div>
-            <p>
-                @{{ item.course.author }}
-                {{ item.course.title }}
-            </p>
-            <a href="{% url 'delete-item-cart' item.id %}">Delete</a>
-            <a href="{% url 'move-cart' item.course.id %}">Move to favorite</a>
+    {% if items %}
+        <div class="cart-layout">
+            
+            <!-- Items List (Left Side) -->
+            <div class="cart-items-list">
+                <p class="cart-count-header">{{ items|length }} Course{% if items|length > 1 %}s{% endif %} in Cart</p>
+
+                {% for item in items %}
+                    <div class="cart-item-card">
+                        <!-- Media Thumbnail -->
+                        <div class="cart-item-media">
+                            <a href="{% url 'course-detail' item.course.id %}">
+                                {% if item.course.image %}
+                                    <img src="{{ item.course.image.url }}" alt="{{ item.course.title }}" class="cart-item-img">
+                                {% else %}
+                                    <div class="cart-item-placeholder">
+                                        <span>{{ item.course.title|slice:':2'|upper }}</span>
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </div>
+
+                        <!-- Course Details -->
+                        <div class="cart-item-details">
+                            <h2 class="item-course-title">
+                                <a href="{% url 'course-detail' item.course.id %}">
+                                    {{ item.course.title }}
+                                </a>
+                            </h2>
+                            <p class="item-course-author">
+                                By <a href="{% url 'profile' item.course.author.id %}">@{{ item.course.author.username }}</a>
+                            </p>
+                            
+                            {% if item.course.bestseller %}
+                                <span class="badge-bestseller">Bestseller</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Actions (Move / Delete) -->
+                        <div class="cart-item-actions">
+                            <a href="{% url 'delete-item-cart' item.id %}" class="btn-cart-action text-danger">Remove</a>
+                            <a href="{% url 'move-cart' item.course.id %}" class="btn-cart-action">Move to Wishlist</a>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="cart-item-price">
+                            <strong>{{ item.course.price }} DH</strong>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Order Summary Sidebar (Right Side) -->
+            <div class="cart-summary-sidebar">
+                <div class="summary-card">
+                    <span class="summary-label">Total:</span>
+                    <div class="summary-total-price">{{ total_price }} DH</div>
+
+                    <a href="{% url 'checkout' %}" class="btn-checkout">
+                        Checkout
+                    </a>
+
+                    <div class="summary-guarantee">
+                        <span>30-Day Money-Back Guarantee</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        {% if item.course.image %}
-            <img
-                src="{{ item.course.image.url }}"
-                alt="{{ item.course.title }}"
-            >
-        {% endif %}
-        <p>{{ item.course.price }}</p>
-    </div>
-{% empty %}
-
-    <p>No items added yet.</p>
-{% endfor %}
-
-    <div>
-        {% if items %}
-            <h3>Total price: {{ total_price }} DH</h3>
-            <a href="{% url 'checkout' %}"> Checkout </a>
-        {% endif %}
-    </div>
+    {% else %}
+        <!-- Empty State -->
+        <div class="cart-empty-state">
+            <div class="empty-icon">🛒</div>
+            <h2>Your cart is empty.</h2>
+            <p>Keep exploring to find courses that match your goals!</p>
+            <a href="{% url 'home' %}" class="btn-explore">Keep Shopping</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

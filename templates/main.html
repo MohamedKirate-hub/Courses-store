@@ -1,13 +1,23 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}LearnSphere{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
+
     {% include 'navbar.html' %} 
-    {% block content %}
-    {% endblock %}
+
+    <main class="main-wrapper">
+        {% block content %}
+        {% endblock %}
+    </main>
+
 </body>
 </html>

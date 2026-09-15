@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Delete Section | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/delete_confirm.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="confirm-wrapper">
+    <div class="confirm-card">
+        
+        <div class="warning-icon">⚠️</div>
+        
+        <header class="confirm-header">
+            <h1>Delete Section</h1>
+            <p class="confirm-target">
+                Are you sure you want to delete <strong>"{{ section.title }}"</strong>?
+            </p>
+        </header>
+
+        <div class="confirm-warning-box">
+            <p><strong>Warning:</strong> This section contains <strong>{{ section.lectures.count }}</strong> lecture(s). Deleting this section will permanently delete all associated lectures and materials.</p>
+        </div>
+
+        <form method="POST" class="confirm-form">
+            {% csrf_token %}
+
+            <div class="confirm-actions">
+                <button type="submit" class="btn btn-danger">
+                    Yes, Delete Section
+                </button>
+                <a href="{% url 'course-detail' course.id %}" class="btn btn-outline">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

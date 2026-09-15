@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}{{ lecture.title }} | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/lecture_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="lecture-page-wrapper">
+    <div class="lecture-container">
+        
+        <!-- Navigation Header -->
+        <nav class="lecture-nav">
+            <a href="{% url 'course-detail' course.id %}" class="back-link">
+                &lsaquo; Back to Course: <strong>{{ course.title }}</strong>
+            </a>
+            <span class="section-tag">{{ section.title }}</span>
+        </nav>
+
+        <!-- Lecture Title -->
+        <header class="lecture-header">
+            <h1 class="lecture-title">{{ lecture.title }}</h1>
+            {% if lecture.duration %}
+                <span class="lecture-duration-badge">⏱️ {{ lecture.duration }} seconds</span>
+            {% endif %}
+        </header>
+
+        <!-- Media Display Area -->
+        <div class="media-viewer-card">
+            {% if lecture.video %}
+                <div class="video-wrapper">
+                    <video controls controlslist="nodownload" class="lecture-video">
+                        <source src="{{ lecture.video.url }}" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                </div>
+            {% elif lecture.pdf %}
+                <div class="pdf-wrapper">
+                    <iframe src="{{ lecture.pdf.url }}" class="lecture-pdf-frame"></iframe>
+                    <div class="pdf-actions">
+                        <a href="{{ lecture.pdf.url }}" target="_blank" class="btn btn-outline">
+                            📄 Open PDF in New Tab
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="empty-content-state">
+                    <div class="empty-icon">📖</div>
+                    <h3>No content uploaded yet</h3>
+                    <p>This lecture does not have a video or reading material attached right now.</p>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

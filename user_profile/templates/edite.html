@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Edit Profile | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/user/edit_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="edit-profile-wrapper">
+    <div class="form-container">
+        <div class="form-card">
+            
+            <header class="form-header">
+                <h2 class="form-title">Edit Profile</h2>
+                <p class="form-subtitle">Update your personal information and public profile details.</p>
+            </header>
+
+            <form method="POST" enctype="multipart/form-data" class="styled-form">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="form-errors">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <!-- Render form fields with standard paragraph wrappers or individually if preferred -->
+                <div class="form-fields-wrapper">
+                    {{ form.as_p }}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <a href="{% url 'profile' request.user.id %}" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}{{ user.username }} | LearnSphere{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/user/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="profile-container">
+
+        <!-- User Profile Header Section -->
+        <div class="profile-header-card">
+            <div class="profile-avatar-wrap">
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="{{ user.username }}" class="profile-avatar">
+                {% else %}
+                    <div class="profile-avatar-placeholder">
+                        {{ user.username|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-title-row">
+                    <h1>{{ user.username }}</h1>
+                    {% if request.user == user %}
+                        <a href="{% url 'edit-profile' user.id %}" class="btn btn-outline btn-sm">Edit Profile</a>
+                    {% endif %}
+                </div>
+
+                <p class="profile-fullname">{{ user.first_name }} {{ user.last_name }}</p>
+                
+                {% if user.bio %}
+                    <p class="profile-bio">{{ user.bio }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Courses Section -->
+        <div class="profile-courses-section">
+            <div class="courses-section-header">
+                <h2>Courses by {{ user.username }}</h2>
+                {% if request.user == user %}
+                    <a href="{% url 'create-course' %}" class="btn btn-primary">+ Create Course</a>
+                {% endif %}
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <form method="GET" class="filter-form">
+                    <button type="submit" name="filter" value="all" class="filter-btn {% if not request.GET.filter or request.GET.filter == 'all' %}active{% endif %}">
+                        All
+                    </button>
+                    <button type="submit" name="filter" value="published" class="filter-btn {% if request.GET.filter == 'published' %}active{% endif %}">
+                        Published
+                    </button>
+                    <button type="submit" name="filter" value="draft" class="filter-btn {% if request.GET.filter == 'draft' %}active{% endif %}">
+                        Draft
+                    </button>
+                </form>
+            </div>
+
+            <!-- Courses Grid -->
+            <div class="profile-courses-grid">
+                {% for course in courses %}
+                    <article class="profile-course-card">
+                        <div class="course-thumb-wrap">
+                            {% if course.image %}
+                                <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-thumb">
+                            {% else %}
+                                <div class="course-thumb-placeholder">
+                                    {{ course.title|slice:":2"|upper }}
+                                </div>
+                            {% endif %}
+                            
+                            {% if course.published %}
+                                <span class="status-badge published">Published</span>
+                            {% elif request.user == user %}
+                                <span class="status-badge draft">Draft</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="course-card-body">
+                            <h3><a href="{% url 'course-detail' course.id %}">{{ course.title }}</a></h3>
+                            
+                            {% if course.description %}
+                                <p class="course-desc">{{ course.description|truncatechars:90 }}</p>
+                            {% endif %}
+
+                            <div class="course-meta-row">
+                                <span class="course-lang">🌐 {{ course.language }}</span>
+                                <span class="course-price">{{ course.get_final_price }} DH</span>
+                            </div>
+
+                            <div class="course-card-actions">
+                                <a href="{% url 'course-detail' course.id %}" class="btn btn-outline btn-sm">View Course</a>
+                                
+                                {% if request.user == user %}
+                                    <div class="owner-actions">
+                                        <a href="{% url 'update-course' course.id %}" class="btn btn-secondary btn-sm">Edit</a>
+                                        <a href="{% url 'delete-course' course.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <div class="empty-courses">
+                        <div class="empty-icon">📂</div>
+                        <h3>No Courses Added Yet!</h3>
+                        <p>This user hasn't published or created any courses yet.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

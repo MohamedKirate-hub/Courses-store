@@ -5,9 +5,18 @@ from django.db.models import Q, Count, F, Avg
 from .forms import CourseForm
 
 def home_page(request):
-    courses = Course.objects.annotate(avg_rate = Avg('ratings__rate')
-                                      ).exclude(enrollments__user=request.user
-                                                ).order_by('-avg_rate', '-visitor')
+    query = request.GET.get('query', '')
+    courses = Course.objects.filter(published=True).filter(
+        Q(title__icontains=query)|
+        Q(language__icontains=query)|
+        Q(topics__name__icontains=query)|
+        Q(sections__title__icontains=query)|
+        Q(sections__lectures__title__icontains=query)
+    ).annotate(avg_rate = Avg('ratings__rate'))
+    if request.user.is_authenticated:
+        courses = courses.exclude(enrollments__user=request.user)
+
+    courses = courses.order_by('-avg_rate', '-visitor').distinct()  
     context = {'courses': courses}
     return render(request, 'home.html', context)
 
@@ -73,8 +82,19 @@ def add_to_cart_view(request, pk):
 
 @login_required(login_url='login')
 def cart_view(request):
+    query = request.GET.get('query', '')
     cart, created = Cart.objects.get_or_create(user=request.user)
     items = cart.items.select_related('course')
+
+    if query:
+        items = items.filter(
+            Q(course__title__icontains=query) |
+            Q(course__language__icontains=query) |
+            Q(course__topics__name__icontains=query) |
+            Q(course__sections__title__icontains=query) |
+            Q(course__sections__lectures__title__icontains=query)
+        ).distinct()
+
     total_price = sum(item.course.get_final_price() for item in items)
     total_price = round(total_price, 2)
     context = {'items': items, 'total_price': total_price}
@@ -97,7 +117,15 @@ def add_to_favorite_view(request, pk):
 
 @login_required(login_url='login')
 def favorites_view(request):
-    favorite_items = FavoriteItem.objects.filter(user=request.user).select_related('course')
+    query = request.GET.get('query', '')
+    favorite_items = FavoriteItem.objects.filter(
+        Q(course__title__icontains=query)|
+        Q(course__language__icontains=query)|
+        Q(course__topics__name__icontains=query)|
+        Q(course__sections__title__icontains=query)|
+        Q(course__sections__lectures__title__icontains=query)
+    )
+    favorite_items = favorite_items.filter(user=request.user).select_related('course').distinct()
     context = {'favorites': favorite_items}
     return render(request, 'favorite.html', context)
 

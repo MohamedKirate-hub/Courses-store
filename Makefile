@@ -1,6 +1,9 @@
 run:
 	python3 manage.py runserver
 
+add_app:
+	python3 manage.py startapp $(APP)
+
 makemigrations:
 	python3 manage.py makemigrations
 
@@ -11,6 +14,15 @@ superuser:
 	python3 manage.py createsuperuser
 
 clean:
-	@find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type d -name "__pycache__" -exec rm -rf {} +
 
-.PHONY: run migrate makemigrations superuser clean
+help:
+	@echo "Available commands:"
+	@echo "  make run                    Run development server"
+	@echo "  make add_app APP=app_name  Create a new Django app"
+	@echo "  make makemigrations         Create migrations"
+	@echo "  make migrate                Apply migrations"
+	@echo "  make superuser              Create admin user"
+	@echo "  make clean                  Remove __pycache__ directories"
+
+.PHONY: run add_app makemigrations migrate superuser clean help

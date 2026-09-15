@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+    {% if page == 'create' %}Create Section{% else %}Update Section{% endif %} | LearnSphere
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/section_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-container">
+        
+        <header class="form-header">
+            <h1>
+                {% if page == 'create' %}
+                    Create Section
+                {% else %}
+                    Update Section
+                {% endif %}
+            </h1>
+            <p class="form-subtitle">
+                Course: <strong>{{ course.title }}</strong>
+            </p>
+        </header>
+
+        <form method="POST" class="styled-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="title">Section title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    class="form-control"
+                    placeholder="Example: Week 1 - Introduction to Python"
+                    value="{{ section.title|default:'' }}"
+                    required
+                >
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {% if page == 'create' %}
+                        Create Section
+                    {% else %}
+                        Update Section
+                    {% endif %}
+                </button>
+                <a href="{% url 'course-detail' course.id %}" class="btn btn-outline">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

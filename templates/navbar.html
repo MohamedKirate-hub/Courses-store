@@ -1,13 +1,64 @@
-<div>
-    <a href="{% url 'home' %}">Home</a>
-    <input type="text" name="query" placeholder="Search Here">
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'learning' %}">My learning</a>
-        <a href="{% url 'favorite' %}">Favorite</a>
-        <a href="{% url 'cart' %}">My Card</a>
-        <a href="#">Profile</a>
-    {% else %}
-        <a href="{% url 'login' %}">Log in</a>
-        <a href="{% url 'register' %}">Register</a>
-    {% endif %}
-</div>
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+<header class="navbar-header">
+  <nav class="navbar-container">
+    
+    <!-- Left Section: Logo & Explore -->
+    <div class="navbar-left">
+      <a href="{% url 'home' %}" class="navbar-logo">
+        <span class="logo-accent">Learn</span>Sphere
+      </a>
+      <a href="{% url 'home' %}" class="nav-link nav-explore">Explore</a>
+    </div>
+
+    <!-- Center Section: Global Search Bar -->
+    <form method="GET" class="search-form" action="{% url 'home' %}">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" name="query" placeholder="Search for anything..." value="{{ request.GET.query|default:'' }}">
+      </div>
+    </form>
+
+    <!-- Right Section: Actions & Profile -->
+    <div class="navbar-actions">
+      {% if request.user.is_authenticated %}
+        <a href="#" class="nav-link hide-on-medium">Teach on LearnSphere</a>
+        <a href="{% url 'learning' %}" class="nav-link">My learning</a>
+        
+        <a href="{% url 'favorite' %}" class="nav-icon-link" title="Favorites">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </a>
+        
+        <a href="{% url 'cart' %}" class="nav-icon-link" title="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </a>
+
+        <a href="{% url 'logout' %}" class="nav-icon-link" title="Logout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </a>
+        
+        <a href="{% url 'profile' request.user.id %}" class="avatar-link" title="Profile">
+          {% if request.user.image %}
+            <img src="{{ request.user.image.url }}" alt="{{ request.user.username }}" class="user-avatar-img">
+          {% else %}
+            <div class="user-avatar">{{ request.user.username|slice:":1"|upper }}</div>
+          {% endif %}
+        </a>
+      
+      {% else %}
+        <a href="#" class="nav-link">Teach on LearnSphere</a>
+        <a href="{% url 'cart' %}" class="nav-icon-link" title="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline">Log in</a>
+        <a href="{% url 'register' %}" class="btn btn-solid">Sign up</a>
+      {% endif %}
+    </div>
+
+  </nav>
+</header>

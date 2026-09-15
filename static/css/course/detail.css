@@ -1,0 +1,509 @@
+/* ==========================================================================
+   UDEMY-STYLE COURSE DETAIL LAYOUT
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffffff;
+  color: #1c1d1f;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-wrapper {
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   DARK HERO BANNER
+   -------------------------------------------------------------------------- */
+
+.hero-banner {
+  background-color: #1c1d1f;
+  color: #ffffff;
+  padding: 32px 0 48px;
+}
+
+.hero-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 48px;
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: #c0c4fc;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.breadcrumb a {
+  color: #c0c4fc;
+  text-decoration: none;
+}
+
+.hero-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.hero-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+.rating-badge {
+  color: #f3ca8c;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.rating-stars {
+  color: #f3ca8c;
+  letter-spacing: 2px;
+}
+
+.rating-count {
+  color: #c0c4fc;
+  text-decoration: underline;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.hero-meta a {
+  color: #c0c4fc;
+  text-decoration: underline;
+}
+
+.views-tag {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   MAIN GRID & STICKY SIDEBAR
+   -------------------------------------------------------------------------- */
+
+.main-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 48px;
+}
+
+.course-main {
+  padding-top: 32px;
+  min-width: 0;
+}
+
+.sidebar-column {
+  position: relative;
+}
+
+.sticky-card {
+  position: sticky;
+  top: 24px;
+  margin-top: -160px; /* Overlaps dark hero banner */
+  background: #ffffff;
+  border: 1px solid #d1d7dc;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.preview-media img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.price-display {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.current-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.old-price {
+  color: #6a6f73;
+  font-size: 1rem;
+}
+
+.discount-tag {
+  color: #1e6055;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.instructor-badge {
+  font-size: 0.8rem;
+  color: #6a6f73;
+  text-align: center;
+  margin: 0 0 4px;
+}
+
+/* Standardized Sidebar Buttons */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #a435f0;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #8710d8;
+}
+
+.btn-secondary {
+  background-color: #1c1d1f;
+  color: #ffffff;
+}
+
+.btn-secondary:hover {
+  background-color: #3e4143;
+}
+
+.btn-danger {
+  background-color: #ffffff;
+  color: #b30000;
+  border-color: #b30000;
+}
+
+.btn-danger:hover {
+  background-color: #fce8e6;
+}
+
+/* --------------------------------------------------------------------------
+   BODY SECTIONS
+   -------------------------------------------------------------------------- */
+
+/* What You'll Learn Box */
+.outcomes-box {
+  border: 1px solid #d1d7dc;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.outcomes-box h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+
+.outcomes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.outcomes-list li {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  position: relative;
+  padding-left: 20px;
+}
+
+.outcomes-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #1c1d1f;
+  font-weight: bold;
+}
+
+/* Accordion Curriculum */
+.curriculum-section {
+  margin-bottom: 48px;
+}
+
+.curriculum-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.curriculum-header h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.curriculum-stats {
+  font-size: 0.85rem;
+  color: #6a6f73;
+}
+
+.accordion-list {
+  border: 1px solid #d1d7dc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #d1d7dc;
+}
+
+.accordion-item:last-child {
+  border-bottom: none;
+}
+
+.accordion-header {
+  background-color: #f7f9fa;
+  padding: 14px 20px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordion-header:hover {
+  background-color: #e6e9ec;
+}
+
+.accordion-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Section Header Action Links */
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Action Link Colors */
+.add-link {
+  color: #a435f0;
+  background-color: #f3e8ff;
+  border: 1px solid rgba(164, 53, 240, 0.2);
+}
+
+.add-link:hover {
+  background-color: #a435f0;
+  color: #ffffff;
+}
+
+.edit-link {
+  color: #2d2f31;
+  background-color: #e6e9ec;
+}
+
+.edit-link:hover {
+  background-color: #d1d7dc;
+}
+
+.delete-link {
+  color: #b30000;
+  background-color: #fce8e6;
+}
+
+.delete-link:hover {
+  background-color: #f8d7da;
+}
+
+.accordion-meta {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #6a6f73;
+}
+
+.lecture-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #ffffff;
+}
+
+.lecture-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e4e8eb;
+  font-size: 0.9rem;
+}
+
+.lecture-row:last-child {
+  border-bottom: none;
+}
+
+.lecture-title-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.lecture-title-wrap a {
+  color: #1c1d1f;
+  text-decoration: none;
+}
+
+.lecture-title-wrap a:hover {
+  color: #5624d0;
+  text-decoration: underline;
+}
+
+.lecture-icon {
+  font-size: 0.75rem;
+  color: #6a6f73;
+}
+
+.lecture-duration {
+  color: #6a6f73;
+  font-size: 0.85rem;
+}
+
+.empty-card {
+  border: 1px dashed #d1d7dc;
+  padding: 24px;
+  text-align: center;
+  color: #6a6f73;
+  border-radius: 6px;
+}
+
+/* Author Courses Grid */
+.more-courses-section {
+  border-top: 1px solid #d1d7dc;
+  padding-top: 32px;
+}
+
+.more-courses-section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.more-courses-section h2 a {
+  color: #5624d0;
+  text-decoration: none;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.mini-course-card {
+  border: 1px solid #d1d7dc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.mini-course-card img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+}
+
+.mini-card-body {
+  padding: 10px;
+}
+
+.mini-card-body h3 {
+  font-size: 0.85rem;
+  margin: 0 0 6px;
+}
+
+.mini-card-body a {
+  color: #1c1d1f;
+  text-decoration: none;
+}
+
+.mini-price {
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .hero-container,
+  .main-container {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-card {
+    margin-top: 0;
+    position: static;
+  }
+
+  .outcomes-list {
+    grid-template-columns: 1fr;
+  }
+}

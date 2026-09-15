@@ -7,4 +7,9 @@ urlpatterns = [
     path('learning/', views.learning_view, name='learning'),
     path('unenrolled-course/<str:pk>', views.unenrolle_course_view, name='unenrolled-course'),
     path('checkout/', views.enroll_courses, name='checkout'),
+    path('create-section/<str:pk>', views.create_section, name='create-section'),
+    path('section/<str:pk>/delete', views.delete_section, name='section-delete'),
+    path('section/<str:pk>/update', views.update_section, name='section-update'),
+    path('lecture/<str:pk>/create', views.create_lecteur, name='lecture-create'),
+    path( 'lecture/<int:pk>/', views.lecture_detail, name='lecture-detail'),
 ]

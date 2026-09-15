@@ -1,0 +1,200 @@
+/* ==========================================================================
+   EDIT PROFILE FORM STYLES (static/css/user/edit_profile.css)
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f7f9fa;
+  color: #1c1d1f;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.edit-profile-wrapper {
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  padding: 40px 20px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 640px;
+}
+
+.form-card {
+  background: #ffffff;
+  border: 1px solid #d1d7dc;
+  border-radius: 8px;
+  padding: 36px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
+.form-header {
+  margin-bottom: 28px;
+  border-bottom: 1px solid #e4e8eb;
+  padding-bottom: 16px;
+}
+
+.form-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1c1d1f;
+  margin: 0 0 6px;
+}
+
+.form-subtitle {
+  font-size: 0.9rem;
+  color: #6a6f73;
+  margin: 0;
+}
+
+/* Form Fields via form.as_p formatting override */
+.form-fields-wrapper p {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1c1d1f;
+}
+
+.form-fields-wrapper label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1c1d1f;
+}
+
+.form-fields-wrapper input[type="text"],
+.form-fields-wrapper input[type="email"],
+.form-fields-wrapper input[type="password"],
+.form-fields-wrapper textarea,
+.form-fields-wrapper select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  border: 1px solid #1c1d1f;
+  border-radius: 4px;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-fields-wrapper input[type="text"]:focus,
+.form-fields-wrapper input[type="email"]:focus,
+.form-fields-wrapper input[type="password"]:focus,
+.form-fields-wrapper textarea:focus,
+.form-fields-wrapper select:focus {
+  border-color: #a435f0;
+  box-shadow: 0 0 0 2px rgba(164, 53, 240, 0.2);
+}
+
+/* File inputs for profile images */
+.form-fields-wrapper input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #f7f9fa;
+  border: 1px dashed #d1d7dc;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.form-fields-wrapper input[type="file"]:hover {
+  border-color: #1c1d1f;
+}
+
+/* Help texts and error texts generated inside form.as_p */
+.form-fields-wrapper .helptext {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #6a6f73;
+  margin-top: 2px;
+}
+
+.form-fields-wrapper ul.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  color: #b30000;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* General Form Errors */
+.form-errors {
+  background-color: #fce8e6;
+  border: 1px solid #b30000;
+  border-radius: 4px;
+  padding: 12px 16px;
+  color: #b30000;
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+
+/* Actions Layout */
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  border-top: 1px solid #e4e8eb;
+  padding-top: 20px;
+}
+
+.btn {
+  display: inline-block;
+  flex: 1;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #a435f0;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #8710d8;
+}
+
+.btn-outline {
+  background-color: #ffffff;
+  color: #2d2f31;
+  border-color: #1c1d1f;
+}
+
+.btn-outline:hover {
+  background-color: #f7f9fa;
+}
+
+/* Responsive Viewports */
+@media (max-width: 600px) {
+  .form-card {
+    padding: 24px 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

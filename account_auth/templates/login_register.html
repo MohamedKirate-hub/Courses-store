@@ -1,37 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-        <form method="post">
-            {% csrf_token %}
-            <h1>
-                {% if page == 'login' %}
-                    Login
-                {% else %}
-                    Register
-                {% endif %}
-            </h1>
-            {{ form.as_p }}
-            <button type="submit">
-                Submit
-            </button>
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+    {% if page == 'login' %}Log in{% else %}Sign up{% endif %} | LearnSphere
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">
             {% if page == 'login' %}
-                <p>
-                    Don't have an account?
-                    <a href="{% url 'register' %}">Register</a>
-                </p>
-                {% else %}
-                    <p>
-                        Already have an account?
-                        <a href="{% url 'login' %}">Login</a>
-                    </p>
-                {% endif %}
+                Log in to your account
+            {% else %}
+                Sign up and start learning
+            {% endif %}
+        </h1>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn-auth-submit">
+                {% if page == 'login' %}Log in{% else %}Sign up{% endif %}
+            </button>
         </form>
+
+        <div class="auth-footer">
+            {% if page == 'login' %}
+                <p>Don't have an account? <a href="{% url 'register' %}" class="auth-link">Sign up</a></p>
+            {% else %}
+                <p>Already have an account? <a href="{% url 'login' %}" class="auth-link">Log in</a></p>
+            {% endif %}
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

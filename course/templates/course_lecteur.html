@@ -1,0 +1,95 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+    {% if page == 'create' %}Create Lecture{% else %}Update Lecture{% endif %} | LearnSphere
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/course/lecture_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <div class="form-container">
+        
+        <header class="form-header">
+            <h1>
+                {% if page == 'create' %}
+                    Create Lecture
+                {% else %}
+                    Update Lecture
+                {% endif %}
+            </h1>
+            <p class="form-subtitle">
+                Course: <strong>{{ course.title }}</strong> &bull; Section: <strong>{{ section.title }}</strong>
+            </p>
+        </header>
+
+        <form method="POST" enctype="multipart/form-data" class="styled-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors non-field-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Lecture Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="field-error">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Video Field -->
+            <div class="form-group">
+                <label for="{{ form.video.id_for_label }}">Video File</label>
+                <div class="file-input-wrapper">
+                    {{ form.video }}
+                </div>
+                {% if form.video.errors %}
+                    <div class="field-error">{{ form.video.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- PDF Field -->
+            <div class="form-group">
+                <label for="{{ form.pdf.id_for_label }}">Supplementary PDF (Optional)</label>
+                <div class="file-input-wrapper">
+                    {{ form.pdf }}
+                </div>
+                {% if form.pdf.errors %}
+                    <div class="field-error">{{ form.pdf.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Duration Field -->
+            <div class="form-group">
+                <label for="{{ form.duration.id_for_label }}">Duration (in seconds)</label>
+                {{ form.duration }}
+                {% if form.duration.errors %}
+                    <div class="field-error">{{ form.duration.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {% if page == 'create' %}
+                        Create Lecture
+                    {% else %}
+                        Update Lecture
+                    {% endif %}
+                </button>
+                <a href="{% url 'course-detail' course.id %}" class="btn btn-outline">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
