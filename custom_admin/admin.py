@@ -72,6 +72,7 @@ class CourseAdmin(admin.ModelAdmin):
             'all': ('admin/css/course_admin.css',)
         }
     change_list_template = 'admin/item/course/change_list.html'
+
     readonly_fields = ('updated_at', 'created_at', 'visitor')
     list_display = ('author_username', 'title', 'description', 'published',
                     'language', 'topics_list', 'price', 'avg_rate')
@@ -290,3 +291,6 @@ class EnrollementAdmin(admin.ModelAdmin):
                                                              'course__author',
                                                              'user').annotate(
                                                                  avg_rate = Avg('course__ratings__rate')))
+
+# Canceled 
+# User
