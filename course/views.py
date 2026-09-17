@@ -11,6 +11,7 @@ def course_view(request, pk):
         Course.objects.annotate(avg_rates=Avg('ratings__rate')).annotate(rates_count=Count('ratings__rate')),
         id=pk
     )
+    feedbacks = get_object_or_404(Feedback, course=course)
     if request.user != course.author:
         Course.objects.filter(id=course.id).update(
             visitor = F('visitor') + 1
@@ -39,6 +40,7 @@ def course_view(request, pk):
     context = {'course': course, 'author_courses': author_courses,
                'is_enrolled': enrolled,
                'feedback_form': feedback_form,
+               'feedbacks': feedbacks,
                "sections": sections,}
     return render(request, 'course_view.html', context)
 

@@ -114,6 +114,11 @@
 
             <!-- Feedback -->
             <section class="feedback-section">
+                {% for feedback in feedbacks %}
+                    <p>feedback.</p>
+                {% empty %}
+                    <p>NO Feedback added yet.</p>
+                {% endfor %}
                 {% if request.user != course.author and is_enrolled %}
                     <div class="feedback-box">
                         <h2>Leave a Course Feedback</h2>
