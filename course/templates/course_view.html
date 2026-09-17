@@ -112,6 +112,20 @@
                 {% endif %}
             </section>
 
+            <!-- Feedback -->
+            <section class="feedback-section">
+                {% if request.user != course.author and is_enrolled %}
+                    <div class="feedback-box">
+                        <h2>Leave a Course Feedback</h2>
+                        <form method="post" class="feedback-form">
+                            {% csrf_token %}
+                            {{ feedback_form.as_p }}
+                            <button type="submit" class="btn btn-primary feedback-submit-btn">Submit Review</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </section>
+
             <!-- Author's Other Courses -->
             {% if author_courses %}
                 <section class="more-courses-section">

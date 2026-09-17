@@ -507,3 +507,74 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* --------------------------------------------------------------------------
+   COURSE FEEDBACK SECTION STYLING
+   -------------------------------------------------------------------------- */
+
+.feedback-section {
+  margin: 40px 0;
+}
+
+.feedback-box {
+  border: 1px solid #d1d7dc;
+  border-radius: 8px;
+  padding: 24px;
+  background-color: #f7f9fa;
+}
+
+.feedback-box h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0 0 16px;
+  color: #1c1d1f;
+}
+
+.feedback-form p {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feedback-form label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1c1d1f;
+}
+
+.feedback-form input[type="text"],
+.feedback-form input[type="number"],
+.feedback-form select,
+.feedback-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #1c1d1f;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #1c1d1f;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feedback-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.feedback-form input:focus,
+.feedback-form select:focus,
+.feedback-form textarea:focus {
+  border-color: #a435f0;
+  box-shadow: 0 0 0 2px rgba(164, 53, 240, 0.15);
+}
+
+.feedback-submit-btn {
+  width: auto;
+  padding: 10px 24px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  margin-top: 8px;
+}
