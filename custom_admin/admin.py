@@ -3,7 +3,8 @@ from account_auth.models import User
 from course.models import EnrolleCourse, CancelEnrolleCourse
 from item.models import Course, Topic, Feedback
 from .forms import CourseAdminForm
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Prefetch, F
+from django.db.models.functions import Upper, Lower, Substr, Concat
 
 class CustomAdminSite(admin.AdminSite):
 
@@ -292,5 +293,87 @@ class EnrollementAdmin(admin.ModelAdmin):
                                                              'user').annotate(
                                                                  avg_rate = Avg('course__ratings__rate')))
 
-# Canceled 
 # User
+
+def name_uppercase(modeladmin, request, queryset):
+    count = queryset.update(
+            first_name = Upper(F('first_name')),
+            last_name = Upper(F('last_name')),
+        )
+    messages.success(
+        request,
+        f'{count} names were converted to uppercase.'
+    )
+
+def name_lowercase(modeladmin, request, queryset):
+    count = queryset.update(
+        first_name = Lower(F('first_name')),
+        last_name = Lower(F('last_name')),
+    )
+    messages.success(
+        request,
+        f'{count} names were converted to lowercase.'
+    )
+
+def name_capitalize(modeladmin, request, queryset):
+    count = queryset.update(
+        first_name=Concat(
+            Upper(Substr(F('first_name'), 1, 1)),
+            Lower(Substr(F('first_name'), 2)),
+        ),
+        last_name=Concat(
+            Upper(Substr(F('last_name'), 1, 1)),
+            Lower(Substr(F('last_name'), 2)),
+        ),
+    )
+    messages.success(
+        request,
+        f'{count} names were capitalized.'
+    )
+
+@admin.register(User, site=admin_site)
+class UserAdmin(admin.ModelAdmin):
+    readonly_fields = ('date_joined',)
+    list_display = ('username', 'last_name', 'first_name',
+                    'enrolled_courses', 'cancelled_enrolled_courses',
+                    'created_courses',
+                    'email', 'user_revenue',
+                    'is_staff', 'is_active')
+    list_filter = ('is_staff', 'is_active')
+    search_fields = ('username', 'last_name', 'first_name', 'email')
+    actions = (name_capitalize, name_lowercase, name_uppercase)
+
+    @admin.display(description='Courses Created')
+    def created_courses(self, obj):
+        return obj.courses_created
+
+    @admin.display(description='Enrolled Courses')
+    def enrolled_courses(self, obj):
+        return obj.enrolled_courses
+
+    @admin.display(description='Cancelled Courses')
+    def cancelled_enrolled_courses(self, obj):
+        return obj.cancelled_enrolled_courses
+
+    @admin.display(description='User revenue')
+    def user_revenue(self, obj):
+        revenue = sum(
+            course.get_final_price() * (course.enrollments.count() +
+                                        course.cancelled_enrollments.count())
+            for course in obj.courses.all()
+        )
+        return f"${revenue:.2f}"
+
+    def get_queryset(self, request):
+        courses = Course.objects.annotate(
+            enrollment_count=Count('enrollments', distinct=True),
+            cancelled_enrollment_count=Count(
+                'cancelled_enrollments',
+                distinct=True
+            )
+        )
+        return super().get_queryset(request).annotate(
+            courses_created = Count('courses', distinct=True),
+            enrolled_courses = Count('enrollments', distinct=True),
+            cancelled_enrolled_courses = Count('cancelled_enrollments', distinct=True)
+        ).prefetch_related(Prefetch('courses', queryset=courses))
