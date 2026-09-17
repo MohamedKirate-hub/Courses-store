@@ -509,13 +509,74 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   COURSE FEEDBACK SECTION STYLING
+   COURSE FEEDBACK & REVIEWS STYLING
    -------------------------------------------------------------------------- */
 
 .feedback-section {
-  margin: 40px 0;
+  margin: 48px 0;
+  border-top: 1px solid #d1d7dc;
+  padding-top: 32px;
 }
 
+.feedback-header h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: #1c1d1f;
+}
+
+.feedbacks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.feedback-card {
+  border: 1px solid #d1d7dc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.feedback-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.feedback-author {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1c1d1f;
+}
+
+.feedback-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feedback-rating .rating-stars {
+  color: #f3ca8c;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.rating-number {
+  font-size: 0.8rem;
+  color: #6a6f73;
+}
+
+.feedback-content {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #1c1d1f;
+  margin: 0;
+}
+
+/* Submission Form Box */
 .feedback-box {
   border: 1px solid #d1d7dc;
   border-radius: 8px;
@@ -524,7 +585,7 @@ body {
 }
 
 .feedback-box h2 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 800;
   margin: 0 0 16px;
   color: #1c1d1f;
@@ -577,4 +638,16 @@ body {
   font-size: 0.9rem;
   border-radius: 4px;
   margin-top: 8px;
+}
+
+.feedback-author-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feedback-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

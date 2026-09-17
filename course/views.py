@@ -11,7 +11,8 @@ def course_view(request, pk):
         Course.objects.annotate(avg_rates=Avg('ratings__rate')).annotate(rates_count=Count('ratings__rate')),
         id=pk
     )
-    feedbacks = get_object_or_404(Feedback, course=course)
+    feedbacks = Feedback.objects.filter(course=course)
+    user_exist = feedbacks.filter(owner = request.user).exists()
     if request.user != course.author:
         Course.objects.filter(id=course.id).update(
             visitor = F('visitor') + 1
@@ -41,7 +42,8 @@ def course_view(request, pk):
                'is_enrolled': enrolled,
                'feedback_form': feedback_form,
                'feedbacks': feedbacks,
-               "sections": sections,}
+               "sections": sections,
+               'user_exist': user_exist}
     return render(request, 'course_view.html', context)
 
 @login_required(login_url='login')
