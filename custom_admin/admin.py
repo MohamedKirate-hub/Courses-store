@@ -5,6 +5,7 @@ from item.models import Course, Topic, Feedback
 from .forms import CourseAdminForm
 from django.db.models import Avg, Count, Prefetch, F
 from django.db.models.functions import Upper, Lower, Substr, Concat
+from .utils import export_user_csv
 
 class CustomAdminSite(admin.AdminSite):
 
@@ -339,9 +340,10 @@ class UserAdmin(admin.ModelAdmin):
                     'created_courses',
                     'email', 'user_revenue',
                     'is_staff', 'is_active')
+
     list_filter = ('is_staff', 'is_active')
     search_fields = ('username', 'last_name', 'first_name', 'email')
-    actions = (name_capitalize, name_lowercase, name_uppercase)
+    actions = (name_capitalize, name_lowercase, name_uppercase, export_user_csv)
 
     @admin.display(description='Courses Created')
     def created_courses(self, obj):
