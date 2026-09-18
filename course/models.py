@@ -23,14 +23,6 @@ class CancelEnrolleCourse(models.Model):
     )
     cancelled_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'course'],
-                name='unique_user_course_cancellation',
-            )
-        ]
-
 class Section(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sections')
     title = models.CharField(max_length=250)

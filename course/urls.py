@@ -12,4 +12,6 @@ urlpatterns = [
     path('section/<str:pk>/update', views.update_section, name='section-update'),
     path('lecture/<str:pk>/create', views.create_lecteur, name='lecture-create'),
     path( 'lecture/<int:pk>/', views.lecture_detail, name='lecture-detail'),
+    path('feedback/<str:pk>/delete', views.delete_feedback, name='delete-feedback'),
+    path('feedback/<str:pk>/update', views.update_feedback, name='update-feedback'),
 ]

@@ -127,8 +127,8 @@
                                     <span class="feedback-author">@{{ feedback.owner.username }}</span>
                                     {% if request.user == feedback.owner %}
                                         <div class="feedback-actions">
-                                            <a href="#" class="action-link edit-link">Edit</a>
-                                            <a href="#" class="action-link delete-link">Delete</a>
+                                            <a href="{% url 'update-feedback' feedback.id %}" class="action-link edit-link">Edit</a>
+                                            <a href="{% url 'delete-feedback' feedback.id %}" class="action-link delete-link">Delete</a>
                                         </div>
                                     {% endif %}
                                 </div>

@@ -3,13 +3,13 @@ from .models import Course
 
 class CourseForm(forms.ModelForm):
     field_order = [
-        'title', 
-        'image', 
-        'description', 
-        'price', 
-        'topics', 
-        'new_topic', 
-        'language', 
+        'title',
+        'image',
+        'description',
+        'price',
+        'topics',
+        'new_topic',
+        'language',
         'published'
     ]
     new_topic = forms.CharField(max_length=150, required=False)

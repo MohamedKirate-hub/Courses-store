@@ -192,3 +192,26 @@ def lecture_detail(request, pk):
         'section': lecture.section,
     })
 
+
+@login_required(login_url='login')
+def update_feedback(request, pk):
+    feedback = get_object_or_404(Feedback, id=pk)
+    course = feedback.course
+    feedback_form = FeedbackForm(instance=feedback)
+    if request.method == 'POST':
+        feedback_form = FeedbackForm(request.POST, instance=feedback)
+        if feedback_form.is_valid():
+            feedback.save()
+            return redirect('course-detail', pk=course.id)
+    context = {'feedback': feedback_form}
+    return render(request, 'update_feedback.html', context)
+
+
+@login_required(login_url='login')
+def delete_feedback(request, pk):
+    feedback = get_object_or_404(Feedback, id=pk)
+    course = feedback.course
+    if request.user != feedback.owner:
+        return redirect('course-detail', pk=course.id)
+    feedback.delete()
+    return redirect('course-detail', pk=course.id)
