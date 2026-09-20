@@ -19,7 +19,7 @@ def home_page(request):
     ).annotate(avg_rate = Avg('ratings__rate'))
     if request.user.is_authenticated:
         courses = courses.exclude(enrollments__user=request.user)
-        recommended_courses, sim = model.recommendation()
+        recommended_courses = model.recommendation()
     else:
         recommended_courses = []
     courses = courses.order_by('-avg_rate', '-visitor').distinct()  
