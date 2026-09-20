@@ -5,7 +5,7 @@ from item.models import Course, Topic, Feedback
 from .forms import CourseAdminForm
 from django.db.models import Avg, Count, Prefetch, F
 from django.db.models.functions import Upper, Lower, Substr, Concat
-from .utils import export_user_csv
+from .utils import export_user_csv, export_course_csv
 
 class CustomAdminSite(admin.AdminSite):
 
@@ -102,7 +102,7 @@ class CourseAdmin(admin.ModelAdmin):
     )
     date_hierarchy = 'created_at'
     actions = (
-        publish_courses, unpublish_courses
+        publish_courses, unpublish_courses, export_course_csv
     )
 
     form = CourseAdminForm

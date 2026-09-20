@@ -1,23 +1,31 @@
-from django.shortcuts import render,redirect, get_object_or_404
-from .models import Topic, Feedback, Course, Cart, CardItem, FavoriteItem
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Topic, Course, Cart, CardItem, FavoriteItem
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Count, F, Avg
+from django.db.models import Q, Avg
 from .forms import CourseForm
+from recommendation.recommend_model import RecommendationSystem
+
 
 def home_page(request):
     query = request.GET.get('query', '')
+    model = RecommendationSystem(request.user)
+
     courses = Course.objects.filter(published=True).filter(
-        Q(title__icontains=query)|
-        Q(language__icontains=query)|
-        Q(topics__name__icontains=query)|
-        Q(sections__title__icontains=query)|
+        Q(title__icontains=query) |
+        Q(language__icontains=query) |
+        Q(topics__name__icontains=query) |
+        Q(sections__title__icontains=query) |
         Q(sections__lectures__title__icontains=query)
     ).annotate(avg_rate = Avg('ratings__rate'))
     if request.user.is_authenticated:
         courses = courses.exclude(enrollments__user=request.user)
-
+        recommended_courses = model.recommendation()
+    else:
+        recommended_courses = []
     courses = courses.order_by('-avg_rate', '-visitor').distinct()  
-    context = {'courses': courses}
+    context = {'courses': courses,
+               'recommended_courses': recommended_courses}
+
     return render(request, 'home.html', context)
 
 @login_required(login_url='login')

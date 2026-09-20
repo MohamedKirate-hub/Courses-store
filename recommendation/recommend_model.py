@@ -31,7 +31,7 @@ class RecommendationSystem:
         return " ".join(data)
 
     def recommendation(self):
-        courses = Course.objects.all()
+        courses = Course.objects.all().exclude(author=self.__user)
 
         courses_data = [
             self.get_coure_data(course)
@@ -42,7 +42,7 @@ class RecommendationSystem:
 
         vectorizer = TfidfVectorizer(stop_words='english')
         courses_vector = vectorizer.fit_transform(courses_data)
-        user_vector = vectorizer.transform(user_data)
+        user_vector = vectorizer.transform([user_data])
 
         similarity = cosine_similarity(user_vector, courses_vector)[0]
         recommend = sorted(
@@ -50,4 +50,4 @@ class RecommendationSystem:
             key=lambda x: x[1],
             reverse=True
         )
-        return recommend
+        return recommend[:10]

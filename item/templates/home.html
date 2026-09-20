@@ -111,5 +111,76 @@
         {% endfor %}
     </div>
 
+    <!-- Recommended Courses Section -->
+    {% if request.user.is_authenticated and recommended_courses %}
+        <section class="recommendations-section" style="margin-top: 48px;">
+            <div class="courses-header">
+                <div>
+                    <h1 class="page-title">Recommended for You</h1>
+                    <p class="section-subtitle" style="color: #6a6f73; font-size: 0.9rem; margin-top: 4px;">Courses selected based on your interests</p>
+                </div>
+            </div>
+
+            <div class="course-grid">
+                {% for course in recommended_courses %}
+                    <div class="course-card">
+                         <!-- Card Image -->
+                        <div class="card-media">
+                            <a href="{% url 'course-detail' course.id %}">
+                                {% if course.image %}
+                                    <img src="{{ course.image.url }}" alt="{{ course.title }}" class="course-img">
+                                {% else %}
+                                    <div class="course-placeholder">
+                                        <span>{{ course.title|slice:":2"|upper }}</span>
+                                    </div>
+                                {% endif %}
+                            </a>
+                            <!-- Recommendation Badge -->
+                            <span class="badge-premium" style="background-color: #20b2aa;">Recommended</span>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <h2 class="course-title">
+                                <a href="{% url 'course-detail' course.id %}">{{ course.title }}</a>
+                            </h2>
+                            <p class="course-author">
+                                <a href="{% url 'profile' course.author.id %}">@{{ course.author.username }}</a>
+                            </p>
+
+                            <!-- Badges -->
+                            <div class="badges-row">
+                                {% if course.bestseller %}
+                                    <span class="badge-bestseller">Bestseller</span>
+                                {% endif %}
+                                <span class="badge-pill">{{ course.language }}</span>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="card-footer-row">
+                                <div class="price-block">
+                                    {% if course.discount > 0 %}
+                                        <span class="price-current">${{ course.get_final_price }}</span>
+                                        <span class="price-original">${{ course.price }}</span>
+                                    {% else %}
+                                        <span class="price-current">${{ course.price }}</span>
+                                    {% endif %}
+                                </div>
+
+                                {% if request.user != course.author %}
+                                    <a href="{% url 'add-cart' course.id %}" class="btn-udemy-outline">
+                                        Add to cart
+                                    </a>
+                                {% else %}
+                                    <span class="owner-tag">Your Course</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
 </div>
 {% endblock %}
