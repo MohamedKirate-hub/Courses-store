@@ -10,10 +10,12 @@ class RecommendationSystem:
     def get_coure_data(self, course: Course):
         topics = " ".join(topic.name for topic in course.topics.all())
         return " ".join(
-            course.title or "",
-            course.description or "",
-            course.language or "",
-            topics
+            [
+                course.title or "",
+                course.description or "",
+                course.language or "",
+                topics
+            ]
         )
 
     def get_user_data(self):
