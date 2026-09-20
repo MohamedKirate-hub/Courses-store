@@ -25,7 +25,7 @@ class RecommendationSystem:
                 self.get_coure_data(favorite.course)
             )
 
-        for enrolled in self.__user.enrollements.all():
+        for enrolled in self.__user.enrollments.all():
             data.append(
                 self.get_coure_data(enrolled.course)
             )
