@@ -33,13 +33,13 @@ def import_courses(file):
 
         course = Course.objects.create(
             author=user,
-            title=row['title'],
-            image=row['image'],
-            description=row['description'],
-            language=row['language'],
-            price=row['price'],
-            discount=row['discount'],
-            published=row['published']
+            title=row['title'].strip(),
+            image=row['image'].strip() or None,
+            description=row['description'].strip(),
+            language=row['language'].strip(),
+            price=row['price'] or 0,
+            discount=row['discount'] or 0,
+            published=row['published'].lower() in {'true', 'yes', '1'}
         )
         course.topics.set(topics)
         imported += 1

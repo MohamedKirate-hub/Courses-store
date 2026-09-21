@@ -1,17 +1,21 @@
+install:
+	@pip install uv
+	@uv sync
+
 run:
-	python3 manage.py runserver
+	uv run python3 manage.py runserver
 
 add_app:
-	python3 manage.py startapp $(APP)
+	uv run python3 manage.py startapp $(APP)
 
 makemigrations:
-	python3 manage.py makemigrations
+	uv run python3 manage.py makemigrations
 
 migrate:
-	python3 manage.py migrate
+	uv run python3 manage.py migrate
 
 superuser:
-	python3 manage.py createsuperuser
+	uv run python3 manage.py createsuperuser
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
