@@ -6,6 +6,9 @@ from .forms import CourseAdminForm
 from django.db.models import Avg, Count, Prefetch, F
 from django.db.models.functions import Upper, Lower, Substr, Concat
 from .utils import export_user_csv, export_course_csv
+from django.urls import path
+from . import views
+
 
 class CustomAdminSite(admin.AdminSite):
 
@@ -13,13 +16,23 @@ class CustomAdminSite(admin.AdminSite):
     site_title = "Course Platform Admin"
     index_title = "Welcome to the Course Dashboard"
 
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('admin/import-courses/', views.import_courses_view, name='import-courses')
+        ]
+        return custom_urls + urls
+
+
 admin_site = CustomAdminSite(name='custom_admin')
 
 # Course page
 
+
 class FeedbackInline(admin.StackedInline):
     model = Feedback
     extra = 1
+
 
 class PriceFilter(admin.SimpleListFilter):
 
@@ -54,6 +67,7 @@ class PriceFilter(admin.SimpleListFilter):
             )
 
         return queryset
+
 
 @admin.action(description="Publish selected courses")
 def publish_courses(modeladmin, request, queryset):
