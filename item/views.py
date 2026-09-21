@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Avg
 from .forms import CourseForm
 from recommendation.recommend_model import RecommendationSystem
+from django.contrib.admin.views.decorators import staff_member_required
+from .services import import_courses
+from django.contrib import messages
 
 
 def home_page(request):
@@ -152,3 +155,19 @@ def move_to_favorite(request, pk):
         cart_item.delete()
     FavoriteItem.objects.update_or_create(user=request.user, course=course)
     return redirect('cart')
+
+@staff_member_required
+def import_courses_view(request):
+    if request.method == 'POST':
+        file = request.FILES.get('csv_file')
+        if not file:
+            messages.error(request, "Please select a csv file.")
+            return redirect('import-courses')
+        try:
+            imporetd = import_courses(file)
+            messages.success(request,
+                             f"{imporetd}")
+        except ValueError as e:
+            messages.error(request, str(e))
+        return redirect('import-courses')
+    return render(request, 'import_courses.html')

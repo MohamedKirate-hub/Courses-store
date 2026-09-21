@@ -13,4 +13,5 @@ urlpatterns = [
     path('delete-favorite/<str:pk>', views.delete_favorite, name='delete-favorite'),
     path('favorite/', views.favorites_view, name='favorite'),
     path('move-cart/<str:pk>', views.move_to_favorite, name='move-cart'),
+    path('admin/import-courses/', views.import_courses_view, name='import-courses')
 ]

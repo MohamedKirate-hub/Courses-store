@@ -1,0 +1,16 @@
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <input
+        type="file"
+        name="csv_file"
+        accept=".csv"
+        required
+    >
+
+    <button type="submit">
+        Import Courses
+    </button>
+
+</form>
