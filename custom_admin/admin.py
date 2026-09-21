@@ -19,7 +19,7 @@ class CustomAdminSite(admin.AdminSite):
     def get_urls(self):
         urls = super().get_urls()
         custom_urls = [
-            path('admin/import-courses/', views.import_courses_view, name='import-courses')
+            path('import-courses/', views.import_courses_view, name='import-courses')
         ]
         return custom_urls + urls
 
