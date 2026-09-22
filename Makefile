@@ -22,11 +22,14 @@ clean:
 
 help:
 	@echo "Available commands:"
-	@echo "  make run                    Run development server"
-	@echo "  make add_app APP=app_name  Create a new Django app"
-	@echo "  make makemigrations         Create migrations"
-	@echo "  make migrate                Apply migrations"
-	@echo "  make superuser              Create admin user"
-	@echo "  make clean                  Remove __pycache__ directories"
+	@echo "  make install                 Install project dependencies"
+	@echo "  make run                     Run development server"
+	@echo "  make add_app APP=app_name    Create a new Django app"
+	@echo "  make makemigrations          Create migrations"
+	@echo "  make migrate                 Apply migrations"
+	@echo "  make superuser               Create admin user"
+	@echo "  make clean                   Remove __pycache__ directories"
+	@echo "  make help                    Show available commands"
+
 
 .PHONY: run add_app makemigrations migrate superuser clean help
